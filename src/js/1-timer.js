@@ -14,7 +14,7 @@ function addLeadingZero(value) {
   return String(value).padStart(2, '0');
 };
 function updateTimer(days, hours, minutes, seconds) {
-  daysElem.textContent = days;
+  daysElem.textContent = addLeadingZero(days);;
   hoursElem.textContent = addLeadingZero(hours);
   minutesElem.textContent = addLeadingZero(minutes);
   secondsElem.textContent = addLeadingZero(seconds);
@@ -45,6 +45,8 @@ flatpickr(datetimePicker, options);
 startBtn.addEventListener('click', () => {
   if (!userSelectedDate)
     return;
+  startBtn.disabled = true;
+  datetimePicker.disabled = true;
   clearInterval(timerId);
   timerId = setInterval(() => {
     const now = new Date();
@@ -57,6 +59,8 @@ startBtn.addEventListener('click', () => {
         message: 'Countdown finished!',
         position: 'topRight',
       });
+      datetimePicker.disabled = false;
+      startBtn.disabled = true;
       return;
     }
     const { days, hours, minutes, seconds } = convertMs(diff);
